@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CJFFA:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CJFFA_jar</output-path>
+    <root id="archive" name="CJFFA.jar">
+      <element id="module-output" name="CJFFA" />
+    </root>
+  </artifact>
+</component>

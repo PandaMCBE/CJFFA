@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: 
+Class-Path: MGApi-1.0.jar MGHub-1.0.jar MGProfile-1.0.jar
+

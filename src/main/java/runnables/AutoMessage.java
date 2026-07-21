@@ -1,6 +1,6 @@
 package runnables;
 
-import fr.pandamcbe.cjffa.Main;
+import fr.pandamcbe.cjffa.CJFFA;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class AutoMessage extends BukkitRunnable {
 
-    private List<String> messages = Main.getInstance2().getConfig("messages").getStringList("messages");
+    private List<String> messages = CJFFA.getInstance().getConfig("messages").getStringList("messages");
     private int i = 0;
 
     @Override

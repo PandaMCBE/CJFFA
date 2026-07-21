@@ -1,23 +1,21 @@
 name: CJFFA
 version: 1.0
-main: fr.pandamcbe.cjffa.Main
+main: fr.pandamcbe.cjffa.CJFFA
 author: PandaMCBE
 depend:
   - MGApi
 commands:
+  stats:
+    permission: pandafun.commands.stats
+    permission-message: '§cVous n''avez pas la permission requise !'
+    description: Permet la gestion des stats d'un joueur.
   report:
     description: une commande de report (provisoir)
     permission-message: 'vous n''avez pas la permissions'
     aliases:
       - rp
-  spawn:
-    description: Ceci est une commande pour se teleporter au spawn du serveur
-    permission-message: '§cVous n''avez pas la permission requise !'
-  hub:
-    description: Ceci est une commande pour se teleporter au spawn du serveur
-    permission-message: '§cVous n''avez pas la permission requise !'
-  lobby:
-    description: Ceci est une commande pour se teleporter au spawn du serveur
+  howtoplay:
+    description: Ceci est une commande pour savoir comment jouer.
     permission-message: '§cVous n''avez pas la permission requise !'
   rules:
     description: Ceci est une commande pour afficher les règles à respecter

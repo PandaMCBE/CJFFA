@@ -1,8 +1,8 @@
-package fr.pandamcbe.cjffa.Listeners;
+package fr.pandamcbe.cjffa.listeners;
 
-import fr.pandamcbe.cjffa.GiveKitsUtils;
-import fr.pandamcbe.cjffa.Main;
-
+import fr.pandamcbe.cjffa.CJFFA;
+import fr.pandamcbe.cjffa.cjffamanager.GiveKitsUtils;
+import fr.pandamcbe.cjffa.scoreboards.PersonalScoreboard;
 import net.luckperms.api.model.user.User;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -10,66 +10,64 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.*;
-
-
 
 public class PlayerJoinListeners implements Listener {
 
+    fr.pandamcbe.mgapi.Main main = fr.pandamcbe.mgapi.Main.getInstance();
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
         Location location = p.getLocation();
-        Main.getInstance2().getScoreboardManager().onLogin(p);
-        User user = Main.getInstance2().luckPerms.getPlayerAdapter(Player.class).getUser(p);
-        //updateScoreboard(player);
-
-        //on met le joueur en aventure même si il est sous un autre gamemode
+        CJFFA.getInstance().getScoreboardManager().onLogin(new PersonalScoreboard(p), p);
+        World world = p.getWorld();
+        User user = CJFFA.getInstance().luckPerms.getPlayerAdapter(Player.class).getUser(p);
         if (p.getGameMode() != GameMode.CREATIVE) {
             p.setGameMode(GameMode.ADVENTURE);
         }
-
-        //on clear le joueur
         p.getInventory().clear();
-        //on lui envoie un message
-        event.setJoinMessage("§c§lCJFFA " + user.getCachedData().getMetaData().getPrefix() + " §r" + p.getName() + " §8§l[§a§l+§8§l]");
-        //on identifie la location du spawn
+        event.setJoinMessage("§8§l[§4§lCJFFA§8§l] " + user.getCachedData().getMetaData().getPrefix() + " §r" + p.getName() + " §8§l[§a§l+§8§l]");
         //PvP Arena Map Location spawn = new Location(location.getWorld(),-48.525, 51, 49.539, -1.0f, -1.0f);
-        Location spawn = new Location(location.getWorld(),  82.462, 67, 200.700, 0.0f, -1.0f);
-        //petit playsound quand on join. *gling gling gling gling
+        Location spawn = new Location(location.getWorld(), -108.500, 24.0, -110.500 - 1.0f - 1.0f);
         p.playSound(p.getLocation(), Sound.WITHER_IDLE, 1.0f, 1.0f);
-        //et on le téléporte au spawn qu'on a identifié juste au dessus
         p.teleport(spawn);
 
         //on régéne le poto
         p.setHealth(20.0);
 
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 999999, 0, true, false));
 
+        new GiveKitsUtils(p);
 
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 999999, 1, true));
-
-        GiveKitsUtils.giveKitsUtils(p);
-
+        if (!p.hasPlayedBefore()) {
+            p.sendMessage("§8§l[§4§lCJFFA§8§l] §d§l> §aMini introduction pour débutants (en vrai longue déso) :\n" + "§eSympa le ffa mais comment j'y joue ? \n" + "\n" + "§f§lDans l'ensemble un FFA tout ce\n" + "§f§lqu'il y a de plus normal, à l'exception\n" + "§f§lde plusieurs éléments en particulier.\n" + "§f§lLa map est couverte de cactus de haut en bas." + "§f§lSe place au dessus de ces derniers des plateformes.\n" + "§f§lCes plateformes représentent plusieurs levels §6or§7|§bdiamant§7|§aémeraude§f§l.\n" + "§f§lEt là vous vous ditez que ces levels ne.\n" + "§f§lpas très originaux et ensuite à quoi ça sert bon sang ?\n" + "§f§lLes cactus vous permettez de sauter très haut.\n" + "§f§lafin d'atteindre les plateformes en hauteur.\n" + "§f§lElles font spawn des items spéciaux de différents niveaux\n" + "§f§laprès X minutes §63§7§b6§a9§f§l.\n" + "\n" + "§f§lCe n'est pas fini pour récupérez ces items,\n" + "§f§lvous devez faire un nombre de killstreak précis.\n" + "§f§lPour chaque niveaux : §62§7/§b3§7/§a5 §f§l qui se reset après.\n" + "§dBON JEU !");
+        }
+        Bukkit.getScheduler().runTaskLater(CJFFA.getInstance(), ()-> {
+            if (world.getPlayers().size() > 1) {
+                if (!Bukkit.getScheduler().isCurrentlyRunning(CJFFA.getInstance().spawnItems.getTask())) {
+                    CJFFA.getInstance().spawnItems.setTimer(0);
+                    CJFFA.getInstance().spawnItems.TaskspawnAll();
+                    for (Player pls : world.getPlayers())
+                        pls.sendTitle("§aGénérateur d'items", "§bnouveau cycle débuté");
+                }
+            }
+        }, 10 * 20L);
     }
 
-//    private void updateScoreboard(Player player) {
-//    }
-
-    //Le message quand le joueur quitte
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player p = event.getPlayer();
-//        p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
-        for(PotionEffect effect : p.getActivePotionEffects())
-        {
+        main.gameMechanics.clearInventoryEntirely(p);
+        CJFFA.getInstance().getScoreboardManager().onLogout(p);
+        User user = CJFFA.getInstance().luckPerms.getPlayerAdapter(Player.class).getUser(p);
+        for (PotionEffect effect : p.getActivePotionEffects())
             p.removePotionEffect(effect.getType());
-        }
-        User user = Main.getInstance2().luckPerms.getPlayerAdapter(Player.class).getUser(p);
-        Main.getInstance2().getScoreboardManager().onLogout(p);
-        event.setQuitMessage("§4§lCJFFA " + user.getCachedData().getMetaData().getPrefix() + " §r" + p.getName() + " §8§l[§c§l-§8§l]");
+        event.setQuitMessage("§8§l[§4§lCJFFA§8§l] " + user.getCachedData().getMetaData().getPrefix() + " §r" + p.getName() + " §8§l[§c§l-§8§l]");
+        main.redisPbSb.saveDatasToCache(p.getUniqueId(), CJFFA.getInstance().mainMap);
+        main.manipulation.deleteAccount(p.getUniqueId(), CJFFA.getInstance().mainMap);
+
     }
+
 
 }
