@@ -1,0 +1,57 @@
+ private void handleRedisMessage(String channelName, String message) {
+        CJFFA main = CJFFA.getInstance();
+        Gson gson = Main.getInstance().gson;
+        AllNames channelsName = AllNames.fromName(channelName);
+            switch (channelsName) {
+                case CJFFA:
+                    RedisMessage redisMessage = gson.fromJson(message, RedisMessage.class);
+                    UUID uuid = redisMessage.getUuid();
+                    Map<String, JsonObject> accounts = redisMessage.getAccounts();
+                    for (String accountNames : accounts.keySet()) {
+                        MemAccountsManipulation manipulation = Main.getInstance().manipulation;
+                        AllNames allNames2 = AllNames.fromName(CallAccountsFromRedis.ifContainsCategory(accountNames));
+                        switch (allNames2) {
+                            case WORNPOJO:
+                                WornAccount wornAccount = gson.fromJson(accounts.get(accountNames), WornAccount.class);
+                                manipulation.sendAccountToMemory(main.mainMap, uuid, wornAccount, AllNames.WORNPOJO.getName());
+                                break;
+                            case STATSPOJO:
+                                StatsAccount statsAccount = gson.fromJson(accounts.get(accountNames), StatsAccount.class);
+                                manipulation.sendAccountToMemory(main.mainMap, uuid, statsAccount, AllNames.statsPojo(AllNames.CJFFA.getName()));
+                                break;
+                            case FFAKITSPOJO:
+                                FFAKitsAccount ffaKitsAccount = gson.fromJson(accounts.get(accountNames), FFAKitsAccount.class);
+                                manipulation.sendAccountToMemory(main.mainMap, uuid, ffaKitsAccount, AllNames.FFAKITSPOJO.getName());
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    break;
+                case SAVESIGNAL:
+                    if (message.equalsIgnoreCase("SAVING NOW!")) {
+                        sendAccountsToProxy(main);
+                    }
+                    break;
+                default:
+                    break;
+            }
+    }
+
+    public void sendAccountsToProxy(CJFFA main){
+        Gson gson = Main.getInstance().gson;
+        Map<String, String> mainMapJson = new HashMap<>();
+        Map<String, JsonObject> subMapJson = new HashMap<>();
+        for(UUID uuid : main.mainMap.keySet()){
+            Map<String, Object> subMap = main.mainMap.get(uuid);
+            for (String accountsName : subMap.keySet()) {
+                JsonObject JsonAccounts = gson.toJsonTree(subMap.get(accountsName)).getAsJsonObject();
+                subMapJson.put(accountsName, JsonAccounts);
+            }
+            String uuidString = uuid.toString();
+            mainMapJson.put(uuidString, gson.toJson(subMapJson));
+        }
+
+        Main.getInstance().redisPbSb.publishMessage(AllNames.PROXY.getName(), gson.toJson(new RedisMessage(mainMapJson)));
+    }

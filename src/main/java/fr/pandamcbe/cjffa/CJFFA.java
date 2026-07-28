@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
 import runnables.AutoMessage;
 
 import java.io.File;
@@ -44,7 +45,7 @@ public final class CJFFA extends JavaPlugin {
     public ScheduledExecutorService getExecutorMonoThread() {
         return executorMonoThread;
     }
-
+    public Scoreboard board;
     public ScheduledExecutorService getScheduledExecutorService() {
         return scheduledExecutorService;
     }
@@ -60,7 +61,8 @@ public final class CJFFA extends JavaPlugin {
         this.scheduledExecutorService = Executors.newScheduledThreadPool(16);
         this.executorMonoThread = Executors.newScheduledThreadPool(1);
         this.sbManager = new ScoreboardManager();
-
+        org.bukkit.scoreboard.ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
+        this.board = scoreboardManager.getMainScoreboard();
 
         System.out.println("Main ON");
         getCommand("report").setExecutor(new Commands());

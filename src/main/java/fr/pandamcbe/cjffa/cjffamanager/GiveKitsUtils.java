@@ -55,7 +55,7 @@ public class GiveKitsUtils {
                 }
                 if (a.getAssassin() == 2) {
                             p.getInventory().setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§bSword of Warrior").setLore("§7Cette épée n'est peut-être", "§7pas la master sword mais", "§7elle repoussera quand même", "§7beaucoup d'ennemis sur ton chemin !").addEnchant(Enchantment.DAMAGE_ALL, 1).makeUnbreakable().toItemStack());
-                            p.getInventory().addItem(new ItemBuilder(Material.POTION, 2).setSplashType().setName("Poison 4s").setPotionDuration(PotionEffectType.POISON, 20 * 10, 2).toItemStack());
+                            p.getInventory().addItem(new ItemBuilder(Material.POTION, 2).setSplashType().setName("Poison 4s").setPotionDuration(PotionEffectType.POISON, 20 * 10, 1).toItemStack());
                             p.getInventory().addItem( new ItemBuilder(Material.POTION, 2).setName("Invisibility 1min").setPotionDuration(PotionEffectType.INVISIBILITY, 20 * 60, 3).setLore("§7Cette potion vous rendra complètement", "§7invisible aux yeux des joueurs.", "§7Malgré votre armure et même votre tag.").toItemStack());
 
                         //            p.getInventory().addItem(new ItemBuilder(Material.POTION).setDurability((byte) 16388).setName("Poison 20s").setPotionDuration(PotionEffectType.POISON, 20, 0).toItemStack());

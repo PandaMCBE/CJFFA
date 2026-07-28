@@ -32,19 +32,19 @@ public class KillsAndDeathsListeners implements Listener {
     MemAccountsManipulation manipulation = Main.getInstance().manipulation;
     String tableName = Main.getInstance().serverName;
     @EventHandler
-    void onPlayerRespawn(PlayerRespawnEvent event) {
+    private void onPlayerRespawn(PlayerRespawnEvent event) {
         Player p = event.getPlayer();
         Location location = p.getLocation();
         p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 999999, 0, true, false));
 //        Location spawn = new Location(location.getWorld(), -48.525, 51, 49.539, -1.0f, -1.0f);
         Location spawn = new Location(location.getWorld(), -108.500, 24.0, -110.500 -1.0f -1.0f);
         event.setRespawnLocation(spawn);
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> new GiveKitsUtils(p), 1L);
+//        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> new GiveKitsUtils(p), 1L);
         new GiveKitsUtils(p);
     }
 
     @EventHandler
-    void onDeath(PlayerDeathEvent e) {
+    private void onDeath(PlayerDeathEvent e) {
         Player victim = e.getEntity();
         Player Killer = victim.getKiller();
         e.getDrops().clear();
@@ -78,8 +78,6 @@ public class KillsAndDeathsListeners implements Listener {
                 }
                 victim.sendMessage("§c§l- §6§l2 coins");
                 statsAccount2.setCoins(statsAccount2.getCoins() - 2);
-                Main.getInstance().sendMemToCache.pushStats(victim.getUniqueId(), Main.getInstance().serverName, statsAccount2);
-
             }
         }
 

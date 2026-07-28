@@ -46,7 +46,7 @@ public class ParameterListeners implements Listener {
 
             Player p = (Player) event.getEntity();
             Location spawn = new Location(p.getWorld(), -108.500, 24.0, -110.500 - 1.0f - 1.0f);
-            if (p.getLocation().distanceSquared(spawn) <= 5 * 5) {
+            if (p.getLocation().distanceSquared(spawn) == 3 * 3) {
                 event.setCancelled(true);
             }
 
@@ -289,7 +289,6 @@ public class ParameterListeners implements Listener {
                 armorStacks[1] = player.getInventory().getLeggings();
                 armorStacks[0] = player.getInventory().getBoots();
                 player.getInventory().setArmorContents(null);
-                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 60, 2));
                 Team team = CJFFA.getInstance().board.getEntryTeam(player.getName());
 
                 if (team != null) {
