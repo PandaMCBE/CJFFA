@@ -3,6 +3,9 @@ package fr.pandamcbe.cjffa.listeners;
 import fr.pandamcbe.cjffa.CJFFA;
 import fr.pandamcbe.cjffa.cjffamanager.GiveKitsUtils;
 import fr.pandamcbe.cjffa.scoreboards.PersonalScoreboard;
+import fr.pandamcbe.mgapi.Main;
+import fr.pandamcbe.mgapi.core.localmemory.MemAccountsManipulation;
+import fr.pandamcbe.mgapi.serverutilapi.enums_strings.AllNames;
 import net.luckperms.api.model.user.User;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -15,7 +18,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public class PlayerJoinListeners implements Listener {
 
-    fr.pandamcbe.mgapi.Main main = fr.pandamcbe.mgapi.Main.getInstance();
+    private final MemAccountsManipulation memAccountsManipulation = Main.getInstance().manipulation;
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
@@ -32,7 +36,9 @@ public class PlayerJoinListeners implements Listener {
         Location spawn = new Location(location.getWorld(), -108.500, 24.0, -110.500 - 1.0f - 1.0f);
         p.playSound(p.getLocation(), Sound.WITHER_IDLE, 1.0f, 1.0f);
         p.teleport(spawn);
-
+        String[] keys = {AllNames.FFAKITSPOJO.getName(), AllNames.statsPojo(AllNames.CJFFA.getName()),AllNames.PROFILPOJO.getName(),AllNames.WORNPOJO.getName()};
+        memAccountsManipulation.getFromRedisSendToMemory(CJFFA.getInstance().mainMap, p.getUniqueId(), keys);
+        Main.getInstance().getProxyMessaging().askServersName();
         //on régéne le poto
         p.setHealth(20.0);
 
@@ -58,13 +64,14 @@ public class PlayerJoinListeners implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player p = event.getPlayer();
+        Main main = Main.getInstance();
         main.gameMechanics.clearInventoryEntirely(p);
         CJFFA.getInstance().getScoreboardManager().onLogout(p);
         User user = CJFFA.getInstance().luckPerms.getPlayerAdapter(Player.class).getUser(p);
         for (PotionEffect effect : p.getActivePotionEffects())
             p.removePotionEffect(effect.getType());
         event.setQuitMessage("§8§l[§4§lCJFFA§8§l] " + user.getCachedData().getMetaData().getPrefix() + " §r" + p.getName() + " §8§l[§c§l-§8§l]");
-        main.redisPbSb.saveDatasToCache(p.getUniqueId(), CJFFA.getInstance().mainMap);
+        main.sendMemToCache.saveDatasToCache(p.getUniqueId(), CJFFA.getInstance().mainMap);
         main.manipulation.deleteAccount(p.getUniqueId(), CJFFA.getInstance().mainMap);
 
     }

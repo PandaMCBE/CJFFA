@@ -15,7 +15,7 @@ import java.util.UUID;
 public class StatCommand implements CommandExecutor {
 
     private boolean verifyName(String serverName){
-        for(String s : Main.getInstance().serverNames){
+        for(String s : Main.getInstance().getProxyMessaging().getServersName()){
             if(!s.equalsIgnoreCase(AllNames.LOBBY.getName())) {
                 if(serverName.equalsIgnoreCase(s))
                     return true;

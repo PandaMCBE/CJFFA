@@ -22,14 +22,20 @@
       <artifactId>spigot-api</artifactId>
       <version>1.8.8-R0.1-SNAPSHOT</version>
       <scope>system</scope>
-      <systemPath>D:/OneDrive/Programmation_java/Dépendances/Les .jar MC/spigot-1.8.8-R0.1-SNAPSHOT-latest3.jar</systemPath>
+      <systemPath>D:/OneDrive/Minecraft Folders + Be/Serveurs Minecraft/Les .jar MC/spigot-1.8.8-R0.1-SNAPSHOT-latest3.jar</systemPath>
     </dependency>
     <dependency>
-      <groupId>fr.pandamcbe</groupId>
+      <groupId>fr.pandamcbe.mg-land</groupId>
       <artifactId>MGApi</artifactId>
       <version>1.0</version>
-      <scope>system</scope>
-      <systemPath>D:/OneDrive/Programmation_java/MG-Land-Plugin/MGApi/target/MGApi-1.0.jar</systemPath>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/PandaMCBE/CJFFA</url>
+    </repository>
+  </distributionManagement>
 </project>

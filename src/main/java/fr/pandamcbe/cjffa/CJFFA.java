@@ -102,7 +102,6 @@ public final class CJFFA extends JavaPlugin {
     @Override
     public void onDisable(){
         this.sbManager.onDisable();
-        subToChannels.sendAccountsToProxy(this);
         super.onDisable();
     }
 

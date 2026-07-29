@@ -27,10 +27,6 @@
           <artifactId>MGApi</artifactId>
       </dependency>
       <dependency>
-          <groupId>me.clip</groupId>
-          <artifactId>placeholderapi</artifactId>
-      </dependency>
-      <dependency>
           <groupId>net.luckperms</groupId>
           <artifactId>api</artifactId>
       </dependency>
