@@ -4,7 +4,9 @@ import fr.pandamcbe.cjffa.CJFFA;
 import fr.pandamcbe.cjffa.cjffamanager.GiveKitsUtils;
 import fr.pandamcbe.cjffa.scoreboards.PersonalScoreboard;
 import fr.pandamcbe.mgapi.Main;
+import fr.pandamcbe.mgapi.core.localmemory.DirtyManager;
 import fr.pandamcbe.mgapi.core.localmemory.MemAccountsManipulation;
+import fr.pandamcbe.mgapi.serverutilapi.enums_strings.AccountType;
 import fr.pandamcbe.mgapi.serverutilapi.enums_strings.AllNames;
 import net.luckperms.api.model.user.User;
 import org.bukkit.*;
@@ -19,7 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 public class PlayerJoinListeners implements Listener {
 
     private final MemAccountsManipulation memAccountsManipulation = Main.getInstance().manipulation;
-
+    private final DirtyManager dirtyManager = new DirtyManager();
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
@@ -36,9 +38,10 @@ public class PlayerJoinListeners implements Listener {
         Location spawn = new Location(location.getWorld(), -108.500, 24.0, -110.500 - 1.0f - 1.0f);
         p.playSound(p.getLocation(), Sound.WITHER_IDLE, 1.0f, 1.0f);
         p.teleport(spawn);
-        String[] keys = {AllNames.FFAKITSPOJO.getName(), AllNames.statsPojo(AllNames.CJFFA.getName()),AllNames.PROFILPOJO.getName(),AllNames.WORNPOJO.getName()};
-        memAccountsManipulation.getFromRedisSendToMemory(CJFFA.getInstance().mainMap, p.getUniqueId(), keys);
-        Main.getInstance().getProxyMessaging().askServersName();
+        memAccountsManipulation.getShopAccounts(CJFFA.getInstance().mainMap, p.getUniqueId(), AccountType.CJFFAKITS.getKeyPrefix(), AccountType.COSMEWORN.getKeyPrefix());
+        memAccountsManipulation.getProfilAccount(CJFFA.getInstance().mainMap, p.getUniqueId(), AccountType.PROFIL.getKeyPrefix());
+        memAccountsManipulation.getStatsAccount(CJFFA.getInstance().mainMap, p.getUniqueId(), AccountType.statsKey(AllNames.CJFFA.getName()));
+
         //on régéne le poto
         p.setHealth(20.0);
 
@@ -71,7 +74,7 @@ public class PlayerJoinListeners implements Listener {
         for (PotionEffect effect : p.getActivePotionEffects())
             p.removePotionEffect(effect.getType());
         event.setQuitMessage("§8§l[§4§lCJFFA§8§l] " + user.getCachedData().getMetaData().getPrefix() + " §r" + p.getName() + " §8§l[§c§l-§8§l]");
-        main.sendMemToCache.saveDatasToCache(p.getUniqueId(), CJFFA.getInstance().mainMap);
+        dirtyManager.forceSave(CJFFA.getInstance().mainMap, p.getUniqueId());
         main.manipulation.deleteAccount(p.getUniqueId(), CJFFA.getInstance().mainMap);
 
     }

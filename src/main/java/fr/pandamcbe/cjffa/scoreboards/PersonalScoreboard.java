@@ -3,6 +3,7 @@ package fr.pandamcbe.cjffa.scoreboards;
 import fr.pandamcbe.cjffa.CJFFA;
 import fr.pandamcbe.commons.StatsAccount;
 import fr.pandamcbe.mgapi.Main;
+import fr.pandamcbe.mgapi.serverutilapi.enums_strings.AccountType;
 import fr.pandamcbe.mgapi.serverutilapi.enums_strings.AllNames;
 import fr.pandamcbe.mgapi.serverutilapi.scoreboards.ObjectiveSign;
 import org.bukkit.Bukkit;
@@ -23,7 +24,7 @@ public class PersonalScoreboard extends fr.pandamcbe.mgapi.serverutilapi.scorebo
     }
     public void setLines(String ip) {
         World world = player.getWorld();
-        StatsAccount a = (StatsAccount) Main.getInstance().manipulation.getAccount(CJFFA.getInstance().mainMap, player.getUniqueId(), AllNames.statsPojo(AllNames.CJFFA.getName()));
+        StatsAccount a = (StatsAccount) Main.getInstance().manipulation.getStatsAccount(CJFFA.getInstance().mainMap, player.getUniqueId(), AccountType.statsKey(AllNames.CJFFA.getName()));
 
                 Bukkit.getScheduler().runTask(CJFFA.getInstance(), () -> {
                     this.objectiveSign.setLine(1, "§8§m----------------");

@@ -7,7 +7,6 @@ import fr.pandamcbe.cjffa.commands.StatCommand;
 import fr.pandamcbe.cjffa.listeners.KillsAndDeathsListeners;
 import fr.pandamcbe.cjffa.listeners.ParameterListeners;
 import fr.pandamcbe.cjffa.listeners.PlayerJoinListeners;
-import fr.pandamcbe.cjffa.rediscommunication.RPbSbUtils;
 import fr.pandamcbe.mgapi.serverutilapi.scoreboards.ScoreboardManager;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
@@ -38,7 +37,6 @@ public final class CJFFA extends JavaPlugin {
     public LuckPerms luckPerms;
     public SpawnItems spawnItems;
     public Map<UUID, Map<String, Object>> mainMap;
-    public RPbSbUtils subToChannels;
     private ScheduledExecutorService executorMonoThread;
     private ScheduledExecutorService scheduledExecutorService;
     private ScoreboardManager sbManager;
@@ -55,8 +53,6 @@ public final class CJFFA extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
         System.out.println("§2[DEBUG] CJFFA chargé !");
-
-        subToChannels = new RPbSbUtils();
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(16);
         this.executorMonoThread = Executors.newScheduledThreadPool(1);

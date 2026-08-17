@@ -3,7 +3,7 @@ package fr.pandamcbe.cjffa.cjffamanager;
 import fr.pandamcbe.cjffa.CJFFA;
 import fr.pandamcbe.commons.FFAKitsAccount;
 import fr.pandamcbe.mgapi.Main;
-import fr.pandamcbe.mgapi.serverutilapi.enums_strings.AllNames;
+import fr.pandamcbe.mgapi.serverutilapi.enums_strings.AccountType;
 import fr.pandamcbe.mgapi.serverutilapi.utils.items.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -27,7 +27,7 @@ public class GiveKitsUtils {
 //
 //        }
 
-            FFAKitsAccount a = (FFAKitsAccount) Main.getInstance().manipulation.getAccount(CJFFA.getInstance().mainMap, p.getUniqueId(), AllNames.FFAKITSPOJO.getName());
+            FFAKitsAccount a = (FFAKitsAccount) Main.getInstance().manipulation.getShopAccounts(CJFFA.getInstance().mainMap, p.getUniqueId(), AccountType.CJFFAKITS.getKeyPrefix());
                 if (a.getGuerrier() == 2) {
 
                             p.getInventory().setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§bSword of Warrior").setLore("§7Cette épée n'est peut-être", "§7pas la master sword mais", "§7elle repoussera quand même", "§7beaucoup d'ennemis sur ton chemin !").addEnchant(Enchantment.DAMAGE_ALL, 2).makeUnbreakable().toItemStack());
