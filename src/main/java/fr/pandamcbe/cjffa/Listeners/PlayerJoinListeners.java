@@ -35,12 +35,12 @@ public class PlayerJoinListeners implements Listener {
         p.getInventory().clear();
         event.setJoinMessage("§8§l[§4§lCJFFA§8§l] " + user.getCachedData().getMetaData().getPrefix() + " §r" + p.getName() + " §8§l[§a§l+§8§l]");
         //PvP Arena Map Location spawn = new Location(location.getWorld(),-48.525, 51, 49.539, -1.0f, -1.0f);
-        Location spawn = new Location(location.getWorld(), -108.500, 24.0, -110.500 - 1.0f - 1.0f);
+        Location spawn = new Location(location.getWorld(), -108.500, 24.0, -110.500, -1.0f, -1.0f);
         p.playSound(p.getLocation(), Sound.WITHER_IDLE, 1.0f, 1.0f);
         p.teleport(spawn);
-        memAccountsManipulation.getShopAccounts(CJFFA.getInstance().mainMap, p.getUniqueId(), AccountType.CJFFAKITS.getKeyPrefix(), AccountType.COSMEWORN.getKeyPrefix());
-        memAccountsManipulation.getProfilAccount(CJFFA.getInstance().mainMap, p.getUniqueId(), AccountType.PROFIL.getKeyPrefix());
-        memAccountsManipulation.getStatsAccount(CJFFA.getInstance().mainMap, p.getUniqueId(), AccountType.statsKey(AllNames.CJFFA.getName()));
+        memAccountsManipulation.getShopAccounts(Main.getInstance().localCacheManager, p.getUniqueId(), AccountType.CJFFAKITS.getKeyPrefix(), AccountType.COSMEWORN.getKeyPrefix());
+        memAccountsManipulation.getProfilAccount(Main.getInstance().localCacheManager, p.getUniqueId(), AccountType.PROFIL.getKeyPrefix());
+        memAccountsManipulation.getStatsAccount(Main.getInstance().localCacheManager, p.getUniqueId(), AccountType.statsKey(AllNames.CJFFA.getName()));
 
         //on régéne le poto
         p.setHealth(20.0);
@@ -74,8 +74,8 @@ public class PlayerJoinListeners implements Listener {
         for (PotionEffect effect : p.getActivePotionEffects())
             p.removePotionEffect(effect.getType());
         event.setQuitMessage("§8§l[§4§lCJFFA§8§l] " + user.getCachedData().getMetaData().getPrefix() + " §r" + p.getName() + " §8§l[§c§l-§8§l]");
-        dirtyManager.forceSave(CJFFA.getInstance().mainMap, p.getUniqueId());
-        main.manipulation.deleteAccount(p.getUniqueId(), CJFFA.getInstance().mainMap);
+        dirtyManager.forceSave(Main.getInstance().localCacheManager, p.getUniqueId());
+        main.manipulation.deleteAccount(p.getUniqueId(), Main.getInstance().localCacheManager);
 
     }
 

@@ -1,6 +1,7 @@
 package fr.pandamcbe.cjffa.scoreboards;
 
 import fr.pandamcbe.cjffa.CJFFA;
+import fr.pandamcbe.commons.ProfilAccount;
 import fr.pandamcbe.commons.StatsAccount;
 import fr.pandamcbe.mgapi.Main;
 import fr.pandamcbe.mgapi.serverutilapi.enums_strings.AccountType;
@@ -24,13 +25,13 @@ public class PersonalScoreboard extends fr.pandamcbe.mgapi.serverutilapi.scorebo
     }
     public void setLines(String ip) {
         World world = player.getWorld();
-        StatsAccount a = (StatsAccount) Main.getInstance().manipulation.getStatsAccount(CJFFA.getInstance().mainMap, player.getUniqueId(), AccountType.statsKey(AllNames.CJFFA.getName()));
-
+        StatsAccount a = (StatsAccount) Main.getInstance().manipulation.getStatsAccount(Main.getInstance().localCacheManager, player.getUniqueId(), AccountType.statsKey(AllNames.CJFFA.getName()));
+        ProfilAccount profilAccount = (ProfilAccount) Main.getInstance().manipulation.getProfilAccount(Main.getInstance().localCacheManager, player.getUniqueId(), AccountType.PROFIL.getKeyPrefix());
                 Bukkit.getScheduler().runTask(CJFFA.getInstance(), () -> {
                     this.objectiveSign.setLine(1, "§8§m----------------");
                     this.objectiveSign.setLine(2, "§7Connectés : §f" + Bukkit.getOnlinePlayers().size());
                     this.objectiveSign.setLine(3, "§7"+world.getName()+"§7-Connectés : §f" + world.getPlayers().size());
-                    this.objectiveSign.setLine(4, "§7MGCoins : §f" + a.getCoins());
+                    this.objectiveSign.setLine(4, "§7MGCoins : §f" + profilAccount.getCoins());
                     this.objectiveSign.setLine(5, "§7MGKStreak : §f" + a.getKillstreaks());
 //            this.objectiveSign.setLine(4, "§7Elos : §f" + account.getelos());
                     this.objectiveSign.setLine(6, "§7MGKills : §f" + (a.getKills() + (a.getKillstreaks() * 5)));

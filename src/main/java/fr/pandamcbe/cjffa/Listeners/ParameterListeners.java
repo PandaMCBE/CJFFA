@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -37,28 +38,42 @@ import java.util.concurrent.TimeUnit;
 public class ParameterListeners implements Listener {
     Map<UUID, HashMap<ItemStack, Long>> cooldownUseID = new HashMap<>();
     Map<UUID, ItemStack[]> armor = new HashMap<>();
+
     //EVENTS:
 
     @EventHandler
     void onTakeDamages(EntityDamageEvent event) {
-
-        if (event.getEntity() instanceof Player) {
-
-            Player p = (Player) event.getEntity();
-            Location spawn = new Location(p.getWorld(), -108.500, 24.0, -110.500 - 1.0f - 1.0f);
-            if (p.getLocation().distanceSquared(spawn) == 3 * 3) {
-                event.setCancelled(true);
-            }
-
-        }
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL || event.getCause() == EntityDamageEvent.DamageCause.CONTACT) {
             // Annulez les dégâts de chute
             event.setCancelled(true);
         }
-
     }
 
     @EventHandler
+    void onTakeDamagesByPlayer(EntityDamageByEntityEvent event){
+        if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
+            Player victim = (Player) event.getEntity();
+            Player attacker = (Player) event.getDamager();
+            Location spawn = new Location(victim.getWorld(), -108.500, 24.0, -110.500);
+            if (victim.getLocation().distanceSquared(spawn) <= 2 * 2) {
+                event.setCancelled(true);
+            }
+
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEntityEvent event) {
+        if (event.getRightClicked() instanceof Player) {
+            Player player = event.getPlayer();
+            Location spawn = new Location(player.getWorld(), -108.500, 24.0, -110.500);
+            if(player.getLocation().distanceSquared(spawn) <= 2 * 2){
+                event.setCancelled(true);
+            }
+        }
+    }
+
+        @EventHandler
     void onFoodLevelChange(FoodLevelChangeEvent event) {
         if (event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
@@ -311,7 +326,7 @@ public class ParameterListeners implements Listener {
 
     private void LaunchRemoveTimer(Player p, Item item) {
         ItemStack clone = item.getItemStack().clone();
-        long delai = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5);
+        long delai = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(3);
         CJFFA.getInstance().itemsRemoveID.computeIfAbsent(p.getUniqueId(), k -> new HashMap<>()).put(clone, delai);
     }
 
@@ -321,44 +336,6 @@ public class ParameterListeners implements Listener {
         String displayname = itemMeta.getDisplayName();
         if(displayname != null) {
             LaunchRemoveTimer(p, item);
-//        for(ItemStack itemGold : CJFFA.getInstance().spawnItems.getGoldList()) {
-//            if (displayname.equalsIgnoreCase(itemGold.getItemMeta().getDisplayName())) {
-//                if (account.getKillstreaks() <= CJFFA.getInstance().getSpawners.createGoldSpawn().getKillstreak()) {
-//                    event.setCancelled(true);
-//                    p.sendMessage("§8§l[§4§lCJFFA§8§l] §d§l§cVous devez obtenir un KillStreak de §f" + CJFFA.getInstance().getSpawners.createGoldSpawn().getKillstreak() + "§c, vous êtes à §f" + account.getKillstreaks());
-//                } else {
-//                    account.setKillstreaks(account.getKillstreaks() - CJFFA.getInstance().getSpawners.createGoldSpawn().getKillstreak());
-//                    LaunchRemoveTimer(p, item);
-//                }
-//                break;
-////            }
-//        }
-//        for(ItemStack itemDiamond : CJFFA.getInstance().spawnItems.getDiamondList()) {
-//            if (displayname.equalsIgnoreCase(itemDiamond.getItemMeta().getDisplayName())) {
-//                if (account.getKillstreaks() <= CJFFA.getInstance().getSpawners.createDiamondSpawn().getKillstreak()) {
-//                    event.setCancelled(true);
-//                    p.sendMessage("§8§l[§4§lCJFFA§8§l] §d§l> §cVous devez obtenir un KillStreak de §f" + CJFFA.getInstance().getSpawners.createDiamondSpawn().getKillstreak() + "§c, vous êtes à §f" + account.getKillstreaks());
-//                } else {
-//                    account.setKillstreaks(account.getKillstreaks()- CJFFA.getInstance().getSpawners.createDiamondSpawn().getKillstreak());
-//                    LaunchRemoveTimer(p, item);
-//                }
-//                break;
-////            }
-//        }
-//        for(ItemStack itemEmerald : CJFFA.getInstance().spawnItems.getEmeraldList()) {
-//            if (displayname.equalsIgnoreCase(itemEmerald.getItemMeta().getDisplayName())) {
-//                if (account.getKillstreaks() < CJFFA.getInstance().getSpawners.createEmeraldSpawn().getKillstreak()) {
-//                    event.setCancelled(true);
-//                    p.sendMessage("§8§l[§4§lCJFFA§8§l] §d§l> §cVous devez obtenir un KillStreak de §f" + CJFFA.getInstance().getSpawners.createEmeraldSpawn().getKillstreak() + "§c, vous êtes à §f" + account.getKillstreaks());
-//                } else {
-//                    account.setKillstreaks(account.getKillstreaks() - CJFFA.getInstance().getSpawners.createEmeraldSpawn().getKillstreak());
-//                    LaunchRemoveTimer(p, item);
-//                }
-//                break;
-////            }
-//        }
-////            Main.getInstance().sendMemToCache.pushKillStreaks(p.getUniqueId(), Main.getInstance().table, account);
-//        }
         }
     }
 

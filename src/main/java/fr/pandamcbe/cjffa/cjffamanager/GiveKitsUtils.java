@@ -30,7 +30,7 @@ public class GiveKitsUtils {
             FFAKitsAccount a = (FFAKitsAccount) Main.getInstance().manipulation.getShopAccounts(CJFFA.getInstance().mainMap, p.getUniqueId(), AccountType.CJFFAKITS.getKeyPrefix());
                 if (a.getGuerrier() == 2) {
 
-                            p.getInventory().setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§bSword of Warrior").setLore("§7Cette épée n'est peut-être", "§7pas la master sword mais", "§7elle repoussera quand même", "§7beaucoup d'ennemis sur ton chemin !").addEnchant(Enchantment.DAMAGE_ALL, 2).makeUnbreakable().toItemStack());
+                            p.getInventory().setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§bSword of Warrior").setLore("§7Cette épée n'est peut-être", "§7pas la master sword mais", "§7elle repoussera quand même", "§7beaucoup d'ennemis sur ton chemin !").addEnchant(Enchantment.DAMAGE_ALL, 1).makeUnbreakable().toItemStack());
                             p.getInventory().addItem(new ItemBuilder(Material.GOLDEN_APPLE, 2).toItemStack());
 
                         ItemStack casque = new ItemBuilder(Material.CHAINMAIL_HELMET).makeUnbreakable().toItemStack();
@@ -54,9 +54,9 @@ public class GiveKitsUtils {
                         putArmor(p, casque, plastron, jambieres, bottes);
                 }
                 if (a.getAssassin() == 2) {
-                            p.getInventory().setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§bSword of Warrior").setLore("§7Cette épée n'est peut-être", "§7pas la master sword mais", "§7elle repoussera quand même", "§7beaucoup d'ennemis sur ton chemin !").addEnchant(Enchantment.DAMAGE_ALL, 1).makeUnbreakable().toItemStack());
-                            p.getInventory().addItem(new ItemBuilder(Material.POTION, 2).setSplashType().setName("Poison 4s").setPotionDuration(PotionEffectType.POISON, 20 * 10, 1).toItemStack());
-                            p.getInventory().addItem( new ItemBuilder(Material.POTION, 2).setName("Invisibility 1min").setPotionDuration(PotionEffectType.INVISIBILITY, 20 * 60, 3).setLore("§7Cette potion vous rendra complètement", "§7invisible aux yeux des joueurs.", "§7Malgré votre armure et même votre tag.").toItemStack());
+//                            p.getInventory().setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§bSword of Warrior").setLore("§7Cette épée n'est peut-être", "§7pas la master sword mais", "§7elle repoussera quand même", "§7beaucoup d'ennemis sur ton chemin !").addEnchant(Enchantment.DAMAGE_ALL, 1).makeUnbreakable().toItemStack());
+                            p.getInventory().addItem(new ItemBuilder(Material.POTION, 2).setSplashType().setName("Poison 4s").setPotionDuration(PotionEffectType.POISON, 20 * 4, 1).toItemStack());
+                            p.getInventory().addItem( new ItemBuilder(Material.POTION, 2).setName("Invisibility 30s").setPotionDuration(PotionEffectType.INVISIBILITY, 20 * 30, 3).setLore("§7Cette potion vous rendra complètement", "§7invisible aux yeux des joueurs.", "§7Malgré votre armure et même votre tag.").toItemStack());
 
                         //            p.getInventory().addItem(new ItemBuilder(Material.POTION).setDurability((byte) 16388).setName("Poison 20s").setPotionDuration(PotionEffectType.POISON, 20, 0).toItemStack());
 //            p.getInventory().addItem( new ItemBuilder(Material.POTION).setDurability((byte) 8233).setName("Invisibility 20s").setPotionDuration(PotionEffectType.INVISIBILITY, 20, 0).toItemStack());
@@ -68,7 +68,7 @@ public class GiveKitsUtils {
                        putArmor(p, casque, plastron, jambieres, bottes);
                 }
                 if (a.getPuncher() == 2) {
-                        p.getInventory().setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§bSword of Warrior").setLore("§7Cette épée n'est peut-être", "§7pas la master sword mais", "§7elle repoussera quand même", "§7beaucoup d'ennemis sur ton chemin !").makeUnbreakable().toItemStack());
+//                        p.getInventory().setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§bSword of Warrior").setLore("§7Cette épée n'est peut-être", "§7pas la master sword mais", "§7elle repoussera quand même", "§7beaucoup d'ennemis sur ton chemin !").makeUnbreakable().toItemStack());
                         p.getInventory().setItem(6, new ItemBuilder(Material.STICK).setName("§cOne Punch Stick").setLore("§7Repousse tes énemies vers l'infini", "§7et l'au-delà !").addEnchant(Enchantment.KNOCKBACK, 4).toItemStack());
                         p.getInventory().setItem(1, new ItemBuilder(Material.FISHING_ROD).setName("§dUltimate PvP Item").setLore("§7Seuls les pros arrivent à faire", "§7qu'un avec leur canne à pêche,", "§7pour nous défoncer, nous,", "§7les noobs xd.").makeUnbreakable().toItemStack());
                         p.getInventory().addItem(new ItemBuilder(Material.GOLDEN_APPLE, 2).toItemStack());
@@ -82,7 +82,7 @@ public class GiveKitsUtils {
 
                 }
                 if (a.getCheated() == 2) {
-                            p.getInventory().setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§bSword of Warrior").setLore("§7Cette épée n'est peut-être", "§7pas la master sword mais", "§7elle repoussera quand même", "§7beaucoup d'ennemis sur ton chemin !").makeUnbreakable().toItemStack());
+//                            p.getInventory().setItem(0, new ItemBuilder(Material.IRON_SWORD).setName("§bSword of Warrior").setLore("§7Cette épée n'est peut-être", "§7pas la master sword mais", "§7elle repoussera quand même", "§7beaucoup d'ennemis sur ton chemin !").makeUnbreakable().toItemStack());
                             p.getInventory().addItem(new ItemBuilder(Material.GOLDEN_APPLE, 1).setDurability((byte) 1).toItemStack());
                             p.getInventory().addItem(new ItemBuilder(Material.ENDER_PEARL, 3).toItemStack());
 

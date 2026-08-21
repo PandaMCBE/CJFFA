@@ -3,7 +3,6 @@ package fr.pandamcbe.cjffa;
 import fr.pandamcbe.cjffa.cjffamanager.GetSpawners;
 import fr.pandamcbe.cjffa.cjffamanager.SpawnItems;
 import fr.pandamcbe.cjffa.commands.Commands;
-import fr.pandamcbe.cjffa.commands.StatCommand;
 import fr.pandamcbe.cjffa.listeners.KillsAndDeathsListeners;
 import fr.pandamcbe.cjffa.listeners.ParameterListeners;
 import fr.pandamcbe.cjffa.listeners.PlayerJoinListeners;
@@ -64,7 +63,6 @@ public final class CJFFA extends JavaPlugin {
         getCommand("report").setExecutor(new Commands());
         getCommand("rules").setExecutor(new Commands());
         getCommand("howtoplay").setExecutor(new Commands());
-        getCommand("stats").setExecutor(new StatCommand());
 
 //        RedisPbSb.subscription();
         // Les listeners
