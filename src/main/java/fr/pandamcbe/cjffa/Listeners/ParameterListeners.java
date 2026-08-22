@@ -53,7 +53,6 @@ public class ParameterListeners implements Listener {
     void onTakeDamagesByPlayer(EntityDamageByEntityEvent event){
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
             Player victim = (Player) event.getEntity();
-            Player attacker = (Player) event.getDamager();
             Location spawn = new Location(victim.getWorld(), -108.500, 24.0, -110.500);
             if (victim.getLocation().distanceSquared(spawn) <= 2 * 2) {
                 event.setCancelled(true);

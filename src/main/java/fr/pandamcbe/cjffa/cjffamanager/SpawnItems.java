@@ -280,12 +280,13 @@ public class SpawnItems {
                     despawnemerald();
                     despawngold();
                     despawndiamond();
+                    if(CJFFA.getInstance().itemsRemoveID.isEmpty()) {
+                        timer = 0;
+                        cancel();
+                    }
                 }
 
-                if(CJFFA.getInstance().itemsRemoveID.isEmpty()) {
-                    timer = 0;
-                    cancel();
-                }
+
                 timer++;
             }
 

@@ -8,7 +8,6 @@ import fr.pandamcbe.mgapi.Main;
 import fr.pandamcbe.mgapi.core.localmemory.DirtyManager;
 import fr.pandamcbe.mgapi.core.localmemory.MemAccountsManipulation;
 import fr.pandamcbe.mgapi.serverutilapi.enums_strings.AccountType;
-import fr.pandamcbe.mgapi.serverutilapi.enums_strings.AllNames;
 import fr.pandamcbe.mgapi.serverutilapi.utils.items.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,7 +26,7 @@ import org.bukkit.potion.PotionEffectType;
 public class KillsAndDeathsListeners implements Listener {
 
     MemAccountsManipulation manipulation = Main.getInstance().manipulation;
-    String tableName = Main.getInstance().serverName;
+    String serverName = Main.getInstance().serverName;
     private final DirtyManager dirtyManager = new DirtyManager();
     @EventHandler
     private void onPlayerRespawn(PlayerRespawnEvent event) {
@@ -54,7 +53,7 @@ public class KillsAndDeathsListeners implements Listener {
 
             if (victim.getUniqueId() != Killer.getUniqueId()) {
 
-                StatsAccount statsAccount = (StatsAccount) manipulation.getStatsAccount(Main.getInstance().localCacheManager, Killer.getUniqueId(), AccountType.statsKey(tableName));
+                StatsAccount statsAccount = (StatsAccount) manipulation.getStatsAccount(Main.getInstance().localCacheManager, Killer.getUniqueId(), AccountType.statsKey(serverName));
                 FFAKitsAccount kitsAccount = (FFAKitsAccount) manipulation.getShopAccounts(Main.getInstance().localCacheManager, Killer.getUniqueId(), AccountType.CJFFAKITS.getKeyPrefix());
                 ProfilAccount profilAccount = (ProfilAccount) manipulation.getProfilAccount(Main.getInstance().localCacheManager, Killer.getUniqueId(), AccountType.PROFIL.getKeyPrefix());
 
@@ -62,7 +61,7 @@ public class KillsAndDeathsListeners implements Listener {
                 statsAccount.setElos(statsAccount.getElos() + 1);
                 profilAccount.setCoins(profilAccount.getCoins() + 5);
 
-                dirtyManager.markDirty(Killer.getUniqueId(), AccountType.statsKey(AllNames.CJFFA.getName()), statsAccount);
+                dirtyManager.markDirty(Killer.getUniqueId(), AccountType.statsKey(serverName), statsAccount);
                 dirtyManager.markDirty(Killer.getUniqueId(), AccountType.CJFFAKITS.getKeyPrefix(), kitsAccount);
                 dirtyManager.markDirty(Killer.getUniqueId(), AccountType.PROFIL.getKeyPrefix(), profilAccount);
 
@@ -77,8 +76,8 @@ public class KillsAndDeathsListeners implements Listener {
                 Killer.sendMessage("§7§l+ §6§l5 coins !");
                 Killer.sendMessage("§7§l+ §d§l1 elo !");
 
-                StatsAccount statsAccount2 = (StatsAccount) manipulation.getStatsAccount(Main.getInstance().localCacheManager, victim.getUniqueId(), AccountType.statsKey(tableName));
-                ProfilAccount profilAccount2 = (ProfilAccount) manipulation.getProfilAccount(Main.getInstance().localCacheManager, Killer.getUniqueId(), AccountType.PROFIL.getKeyPrefix());
+                StatsAccount statsAccount2 = (StatsAccount) manipulation.getStatsAccount(Main.getInstance().localCacheManager, victim.getUniqueId(), AccountType.statsKey(serverName));
+                ProfilAccount profilAccount2 = (ProfilAccount) manipulation.getProfilAccount(Main.getInstance().localCacheManager, victim.getUniqueId(), AccountType.PROFIL.getKeyPrefix());
 
                 if (statsAccount2.getKillstreaks() > 1) {
                     victim.sendMessage("§c§lVous avez perdu vos KillStreaks!");
@@ -86,7 +85,7 @@ public class KillsAndDeathsListeners implements Listener {
                 }
                 victim.sendMessage("§c§l- §6§l2 coins");
                 profilAccount2.setCoins(profilAccount2.getCoins() - 2);
-                dirtyManager.markDirty(victim.getUniqueId(), AccountType.statsKey(AllNames.CJFFA.getName()), statsAccount2);
+                dirtyManager.markDirty(victim.getUniqueId(), AccountType.statsKey(serverName), statsAccount2);
                 dirtyManager.markDirty(victim.getUniqueId(), AccountType.PROFIL.getKeyPrefix(), profilAccount2);
             }
         }
