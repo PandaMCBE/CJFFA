@@ -3,6 +3,7 @@ package fr.pandamcbe.cjffa.listeners;
 import fr.pandamcbe.cjffa.CJFFA;
 import fr.pandamcbe.cjffa.cjffamanager.GiveKitsUtils;
 import fr.pandamcbe.cjffa.scoreboards.PersonalScoreboard;
+import fr.pandamcbe.commons.StatsAccount;
 import fr.pandamcbe.mgapi.Main;
 import fr.pandamcbe.mgapi.core.localmemory.DirtyManager;
 import fr.pandamcbe.mgapi.core.localmemory.MemAccountsManipulation;
@@ -40,8 +41,9 @@ public class PlayerJoinListeners implements Listener {
         p.teleport(spawn);
         memAccountsManipulation.getShopAccounts(Main.getInstance().localCacheManager, p.getUniqueId(), AccountType.CJFFAKITS.getKeyPrefix(), AccountType.COSMEWORN.getKeyPrefix());
         memAccountsManipulation.getProfilAccount(Main.getInstance().localCacheManager, p.getUniqueId(), AccountType.PROFIL.getKeyPrefix());
-        memAccountsManipulation.getStatsAccount(Main.getInstance().localCacheManager, p.getUniqueId(), AccountType.statsKey(AllNames.CJFFA.getName()));
-
+        StatsAccount statsAccount = (StatsAccount) memAccountsManipulation.getStatsAccount(Main.getInstance().localCacheManager, p.getUniqueId(), AccountType.statsKey(AllNames.CJFFA.getName()));
+        statsAccount.setKills(0);
+        statsAccount.setKillstreaks(0);
         //on régéne le poto
         p.setHealth(20.0);
 
@@ -50,7 +52,7 @@ public class PlayerJoinListeners implements Listener {
         new GiveKitsUtils(p);
 
         if (!p.hasPlayedBefore()) {
-            p.sendMessage("§8§l[§4§lCJFFA§8§l] §d§l> §aMini introduction pour débutants (en vrai longue déso) :\n" + "§eSympa le ffa mais comment j'y joue ? \n" + "\n" + "§f§lDans l'ensemble un FFA tout ce\n" + "§f§lqu'il y a de plus normal, à l'exception\n" + "§f§lde plusieurs éléments en particulier.\n" + "§f§lLa map est couverte de cactus de haut en bas." + "§f§lSe place au dessus de ces derniers des plateformes.\n" + "§f§lCes plateformes représentent plusieurs levels §6or§7|§bdiamant§7|§aémeraude§f§l.\n" + "§f§lEt là vous vous ditez que ces levels ne.\n" + "§f§lpas très originaux et ensuite à quoi ça sert bon sang ?\n" + "§f§lLes cactus vous permettez de sauter très haut.\n" + "§f§lafin d'atteindre les plateformes en hauteur.\n" + "§f§lElles font spawn des items spéciaux de différents niveaux\n" + "§f§laprès X minutes §63§7§b6§a9§f§l.\n" + "\n" + "§f§lCe n'est pas fini pour récupérez ces items,\n" + "§f§lvous devez faire un nombre de killstreak précis.\n" + "§f§lPour chaque niveaux : §62§7/§b3§7/§a5 §f§l qui se reset après.\n" + "§dBON JEU !");
+            p.sendMessage("§8§l[§4§lCJFFA§8§l] §d§l> §aMini introduction pour débutants (en vrai longue déso) :\n" + "§eSympa le ffa mais comment j'y joue ? \n" + "\n" + "§f§lDans l'ensemble un FFA tout ce\n" + "§f§lqu'il y a de plus normal, à l'exception\n" + "§f§lde plusieurs éléments en particulier.\n" + "§f§lLa map est couverte de cactus de haut en bas." + "§f§lSe placent au dessus de ces derniers des plateformes.\n" + "§f§lCes plateformes représentent plusieurs levels §6or§7|§bdiamant§7|§aémeraude§f§l.\n" + "§f§lEt là vous vous ditez que ces levels ne.\n" + "§f§lpas très originaux et ensuite à quoi ça sert bon sang ?\n" + "§f§lLes cactus vous permettez de sauter très haut.\n" + "§f§lafin d'atteindre les plateformes en hauteur.\n" + "§f§lElles font spawn des items spéciaux de différents niveaux\n" + "§f§laprès X minutes §63§7§b6§a9§f§l.\n" + "\n" + "§f§lCe n'est pas fini, pour récupérer ces items,\n" + "§f§lvous devez faire un nombre de killstreak précis.\n" + "§f§lPour chaque niveau : §62§7/§b3§7/§a5 §f§l qui se reset après.\n" + "§dBON JEU !");
         }
         Bukkit.getScheduler().runTaskLater(CJFFA.getInstance(), ()-> {
             if (world.getPlayers().size() > 1) {
@@ -74,8 +76,9 @@ public class PlayerJoinListeners implements Listener {
         for (PotionEffect effect : p.getActivePotionEffects())
             p.removePotionEffect(effect.getType());
         event.setQuitMessage("§8§l[§4§lCJFFA§8§l] " + user.getCachedData().getMetaData().getPrefix() + " §r" + p.getName() + " §8§l[§c§l-§8§l]");
-        dirtyManager.forceSave(Main.getInstance().localCacheManager, p.getUniqueId());
+//        dirtyManager.forceSave(Main.getInstance().localCacheManager, p.getUniqueId());
         main.manipulation.deleteAccount(p.getUniqueId(), Main.getInstance().localCacheManager);
+        System.out.println(Main.getInstance().localCacheManager.get(p.getUniqueId()));
 
     }
 

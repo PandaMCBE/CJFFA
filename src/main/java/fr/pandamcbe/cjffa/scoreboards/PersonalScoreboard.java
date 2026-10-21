@@ -34,7 +34,7 @@ public class PersonalScoreboard extends fr.pandamcbe.mgapi.serverutilapi.scorebo
                     this.objectiveSign.setLine(4, "§7MGCoins : §f" + profilAccount.getCoins());
                     this.objectiveSign.setLine(5, "§7MGKStreak : §f" + a.getKillstreaks());
 //            this.objectiveSign.setLine(4, "§7Elos : §f" + account.getelos());
-                    this.objectiveSign.setLine(6, "§7MGKills : §f" + (a.getKills() + (a.getKillstreaks() * 5)));
+                    this.objectiveSign.setLine(6, "§7MGKills : §f" + (a.getKills()));
                     this.objectiveSign.setLine(7, "§7SpawningTimer: §f" + CJFFA.getInstance().spawnItems.getTimer() / 60);
                     this.objectiveSign.setLine(8, "§8§m--------------");
                     this.objectiveSign.setLine(9, ip);

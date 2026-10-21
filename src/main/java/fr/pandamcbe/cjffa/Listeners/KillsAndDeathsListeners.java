@@ -32,12 +32,13 @@ public class KillsAndDeathsListeners implements Listener {
     private void onPlayerRespawn(PlayerRespawnEvent event) {
         Player p = event.getPlayer();
         Location location = p.getLocation();
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 999999, 0, true, false));
 //        Location spawn = new Location(location.getWorld(), -48.525, 51, 49.539, -1.0f, -1.0f);
-        Location spawn = new Location(location.getWorld(), -108.500, 24.0, -110.500 -1.0f -1.0f);
+        Location spawn = new Location(location.getWorld(), -108.500, 24.0, -110.500, -1.0f, -1.0f);
+
         event.setRespawnLocation(spawn);
         Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
             new GiveKitsUtils(p);
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 999999, 0, true, false));
             p.updateInventory();
             }, 1L);
 
@@ -56,7 +57,7 @@ public class KillsAndDeathsListeners implements Listener {
                 StatsAccount statsAccount = (StatsAccount) manipulation.getStatsAccount(Main.getInstance().localCacheManager, Killer.getUniqueId(), AccountType.statsKey(serverName));
                 FFAKitsAccount kitsAccount = (FFAKitsAccount) manipulation.getShopAccounts(Main.getInstance().localCacheManager, Killer.getUniqueId(), AccountType.CJFFAKITS.getKeyPrefix());
                 ProfilAccount profilAccount = (ProfilAccount) manipulation.getProfilAccount(Main.getInstance().localCacheManager, Killer.getUniqueId(), AccountType.PROFIL.getKeyPrefix());
-
+                System.out.println("Before modifications : ProfilAccount : " + profilAccount.getCoins() + " | StatsAcccount : " + statsAccount.getKills());
                 statsAccount.setKills(statsAccount.getKills() + 1);
                 statsAccount.setElos(statsAccount.getElos() + 1);
                 profilAccount.setCoins(profilAccount.getCoins() + 5);
@@ -64,6 +65,8 @@ public class KillsAndDeathsListeners implements Listener {
                 dirtyManager.markDirty(Killer.getUniqueId(), AccountType.statsKey(serverName), statsAccount);
                 dirtyManager.markDirty(Killer.getUniqueId(), AccountType.CJFFAKITS.getKeyPrefix(), kitsAccount);
                 dirtyManager.markDirty(Killer.getUniqueId(), AccountType.PROFIL.getKeyPrefix(), profilAccount);
+                System.out.println("After modifications : ProfilAccount : " + profilAccount.getCoins() + " | StatsAcccount : " + statsAccount.getKills());
+
 
                 Main.getInstance().gameMechanics.applyKillStreak(statsAccount, Killer, "§8§l[§4§lCJFFA§8§l] §d§l>");
 

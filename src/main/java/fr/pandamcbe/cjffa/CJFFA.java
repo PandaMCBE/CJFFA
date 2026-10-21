@@ -6,6 +6,7 @@ import fr.pandamcbe.cjffa.commands.Commands;
 import fr.pandamcbe.cjffa.listeners.KillsAndDeathsListeners;
 import fr.pandamcbe.cjffa.listeners.ParameterListeners;
 import fr.pandamcbe.cjffa.listeners.PlayerJoinListeners;
+import fr.pandamcbe.cjffa.rediscommunication.RedisSubCatch;
 import fr.pandamcbe.mgapi.serverutilapi.scoreboards.ScoreboardManager;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
@@ -52,7 +53,7 @@ public final class CJFFA extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
         System.out.println("§2[DEBUG] CJFFA chargé !");
-
+        new RedisSubCatch().subChannels();
         this.scheduledExecutorService = Executors.newScheduledThreadPool(16);
         this.executorMonoThread = Executors.newScheduledThreadPool(1);
         this.sbManager = new ScoreboardManager();
@@ -66,7 +67,7 @@ public final class CJFFA extends JavaPlugin {
 
 //        RedisPbSb.subscription();
         // Les listeners
-
+        mainMap = new HashMap<>();
         this.registerlisteners(
                 new PlayerJoinListeners(),
                 new ParameterListeners(),
@@ -79,7 +80,6 @@ public final class CJFFA extends JavaPlugin {
         getServer().setDefaultGameMode(GameMode.ADVENTURE);
         getServer().setSpawnRadius(0);
 
-        mainMap = new HashMap<>();
 
         createFile("messages");
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);

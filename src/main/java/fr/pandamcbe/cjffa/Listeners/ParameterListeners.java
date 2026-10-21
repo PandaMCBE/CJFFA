@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -47,19 +46,23 @@ public class ParameterListeners implements Listener {
             // Annulez les dégâts de chute
             event.setCancelled(true);
         }
-    }
-
-    @EventHandler
-    void onTakeDamagesByPlayer(EntityDamageByEntityEvent event){
-        if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
-            Player victim = (Player) event.getEntity();
-            Location spawn = new Location(victim.getWorld(), -108.500, 24.0, -110.500);
-            if (victim.getLocation().distanceSquared(spawn) <= 2 * 2) {
-                event.setCancelled(true);
-            }
-
+        Location spawn = new Location(event.getEntity().getWorld(), -108.500, 24.0, -110.500);
+        if (event.getEntity().getLocation().distanceSquared(spawn) <= 2 * 2) {
+            event.setCancelled(true);
         }
     }
+
+//    @EventHandler
+//    void onTakeDamagesByPlayer(EntityDamageByEntityEvent event){
+//        if (event.getDamager() instanceof Player && event.getDamager() instanceof Arrow && event.getEntity() instanceof Player) {
+//            Player victim = (Player) event.getEntity();
+//            Location spawn = new Location(victim.getWorld(), -108.500, 24.0, -110.500);
+//            if (victim.getLocation().distanceSquared(spawn) <= 2 * 2) {
+//                event.setCancelled(true);
+//            }
+//
+//        }
+//    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEntityEvent event) {
